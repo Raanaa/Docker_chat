@@ -26,3 +26,22 @@ services:
       DB_NAME: chat_system
       DB_PASSWORD: password
       DB_HOST: db
+
+  elastic:
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.4.0
+    environment:
+      TAKE_FILE_OWNERSHIP: "true"
+    volumes:
+      - ./.data/elastic:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+      - 9300:9300
+    ulimits:
+      nofile:
+        soft: "65536"
+        hard: "65536"
+
+      #   ;;;;;;;;;;;;;;;
+      #       ports:
+      # - "9299:9200"
+      # - "9399:9300"
