@@ -6,6 +6,7 @@ class Message < ApplicationRecord
     settings do
       mappings dynamic: false do
         indexes :chat_id, type: :integer
+        indexes :number, type: :integer
         indexes :body, type: :text, analyzer: :english
         indexes :published, type: :boolean
       end
@@ -46,4 +47,4 @@ class Message < ApplicationRecord
           })
     end
 end
-Message.import force: true
+#Message.import # force: true

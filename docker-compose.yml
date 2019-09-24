@@ -10,6 +10,26 @@ services:
       MYSQL_PASSWORD: password
     ports:
       - "3307:3306"
+
+  elastic:
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.4.0
+    environment:
+      TAKE_FILE_OWNERSHIP: "true"
+      network.host: "0.0.0.0"
+      http.port: "9200"
+      transport.host: localhost
+      transport.tcp.port: "9300"
+      xpack.ml.enabled: "false"
+    # volumes:
+    #   - ./.data/elastic:/usr/share/elasticsearch/data
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    ulimits:
+      nofile:
+        soft: "65536"
+        hard: "65536"
+
   app:
     build: .
     command: bundle exec rails s -p 3000 -b '0.0.0.0'
@@ -19,29 +39,14 @@ services:
       - "3000:3000"
     depends_on:
       - db
+      - elastic
     links:
       - db
+      - elastic
     environment:
       DB_USER: root
       DB_NAME: chat_system
       DB_PASSWORD: password
       DB_HOST: db
-
-  elastic:
-    image: docker.elastic.co/elasticsearch/elasticsearch:6.4.0
-    environment:
-      TAKE_FILE_OWNERSHIP: "true"
-    volumes:
-      - ./.data/elastic:/usr/share/elasticsearch/data
-    ports:
-      - 9200:9200
-      - 9300:9300
-    ulimits:
-      nofile:
-        soft: "65536"
-        hard: "65536"
-
-      #   ;;;;;;;;;;;;;;;
-      #       ports:
-      # - "9299:9200"
-      # - "9399:9300"
+      ELASTIC_HOST: "elastic"
+      ELASTIC_PORT: "9200"
