@@ -19,8 +19,7 @@ class MessagesController < ApplicationController
     render json: @message
   end
 
-  #api :POST, 'chats/:id/messages/create'
-  #description "Create new message"
+ 
   def create
 		begin
       ActiveRecord::Base.transaction do
@@ -31,7 +30,7 @@ class MessagesController < ApplicationController
       p e.message
       p e.backtrace
 			ActiveRecord::Rollback
-			render plain: e.message, status: :unprocessable_entity and return
+			render plain: e.message
     end
     render json: "Message created with number =  #{@message.number}", status: :created
   end
@@ -47,7 +46,7 @@ class MessagesController < ApplicationController
       found_msg[b.number] = b.body
     end
   
-    render json: "found #{found_msg.size} message ________ #{found_msg} "
+    render json: "found #{found_msg.size} message/s ________ #{found_msg} "
 
   end
 

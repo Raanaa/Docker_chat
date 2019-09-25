@@ -26,8 +26,6 @@ class ChatsController < ApplicationController
     render json: @messages
   end
 
-  #api :POST, 'applications/:application_id/chats/create'
-  #description "Create new chat"
   def create
 		begin
 			ActiveRecord::Base.transaction do
@@ -37,7 +35,7 @@ class ChatsController < ApplicationController
       p e.message
       p e.backtrace
 			ActiveRecord::Rollback
-			render plain: e.message, status: :unprocessable_entity and return
+			render plain: e.message
     end
     render json: "Chat created with number =  #{@chat.number}", status: :created
   end

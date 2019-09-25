@@ -22,9 +22,6 @@ class ApplicationsController < ApplicationController
     render json: @chats
   end
 
-  #api :POST, '/projects/create/name'
-  #description "Create new app"
-  #param :name, String
   def create
 		begin
 			ActiveRecord::Base.transaction do
@@ -34,7 +31,7 @@ class ApplicationsController < ApplicationController
       p e.message
       p e.backtrace
 			ActiveRecord::Rollback
-			render plain: e.message, status: :unprocessable_entity and return
+			render plain: e.message
     end
     render json:" Application created with token = #{@application.token}", status: :created
   end
