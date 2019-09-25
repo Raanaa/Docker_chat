@@ -2,7 +2,7 @@ class ChatsController < ApplicationController
 
   def index
     chats = Chat.all
-    render json: chats
+    render json: chats.pluck(:number, :messages_count)
   end
 
   def show
@@ -23,7 +23,7 @@ class ChatsController < ApplicationController
 
   def get_messages
     @messages = Chat.where(number: params[:chat_num] , application_id: Application.where(token: params[:token]).first.id).first.messages
-    render json: @messages
+    render json: @messages.pluck(:number, :body)
   end
 
   def create
