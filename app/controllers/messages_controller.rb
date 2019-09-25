@@ -6,17 +6,25 @@ class MessagesController < ApplicationController
   end
 
   def show
-    chat = Chat.where(number: params[:chat_num] , application_id: Application.where(token: params[:token]).first.id).first
-    @message = Message.where(number: params[:msg_num] , chat_id: chat.id).first
-    render json: @message
+    app = Application.where(token: params[:token]).first
+    chat = Chat.where(number: params[:chat_num] , application_id: app.id).first if app.present?
+
+    @message = Message.where(number: params[:msg_num] , chat_id: chat.id).first if chat.present?
+    render json: @message if @message.present?
   end
 
   def update
-    chat = Chat.where(number: params[:chat_num] , application_id: Application.where(token: params[:token]).first.id).first
-    @message = Message.where(number: params[:msg_num] , chat_id: chat.id).first
-    @message.body = params[:body]
-    @message.save
-    render json: "message body updated to be [ #{@message.body} ]"
+    app = Application.where(token: params[:token]).first
+    chat = Chat.where(number: params[:chat_num] , application_id: app.id).first if app.present?
+
+    @message = Message.where(number: params[:msg_num] , chat_id: chat.id).first if chat.present?
+    if @message.present?
+      @message.body = params[:body]
+      @message.save
+      render json: "message body updated to be [ #{@message.body} ]"
+    else
+      render json: "No message found to be updated"
+    end
   end
 
  

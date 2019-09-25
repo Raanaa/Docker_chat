@@ -12,14 +12,14 @@ class ApplicationsController < ApplicationController
 
   def update
     @app = Application.where(token: params[:application_token]).first
-    @app.name = params[:name]
+    @app.name = params[:name] if @app.present?
     @app.save
     render json: "application name updated to be [ #{@app.name} ]"
   end
 
   def get_chats
-    @chats = Application.where(token: params[:token]) .first.chats
-    render json: @chats.pluck(:number , :messages_count)
+    @chats = Application.where(token: params[:token]) .first
+    render json: @chats.chats.pluck(:number , :messages_count) if @chats.present?
   end
 
   def create

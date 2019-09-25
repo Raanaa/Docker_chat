@@ -7,8 +7,8 @@ class ChatsController < ApplicationController
   end
 
   def show
-    @chat = Chat.where(number: params[:chat_num] , application_id: Application.where(token: params[:token]).first.id)
-    render json: @chat
+    @chat = Chat.where(number: params[:chat_num] , application_id: Application.where(token: params[:token])).first
+    render json: "chat number is #{params[:chat_num]} belong to application : #{params[:token]} ,, it has #{@chat.messages.count} message/s ____ #{@chat.messages.pluck(:body)} "   if @chat.present?
   end
 
   def update
@@ -23,8 +23,15 @@ class ChatsController < ApplicationController
   end
 
   def get_messages
-    @messages = Chat.where(number: params[:chat_num] , application_id: Application.where(token: params[:token]).first.id).first.messages
-    render json: @messages.pluck(:number, :body)
+    app = Application.where(token: params[:token]).first
+    chat = Chat.where(number: params[:chat_num] , application_id: app.id) if app.present?
+
+    if chat.present?
+      @messages = chat.first.messages
+      render json: @messages.pluck(:number, :body)
+    else
+      render json: "No message found with this token and chat number"
+    end
   end
 
   def create

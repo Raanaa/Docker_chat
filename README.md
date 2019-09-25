@@ -186,4 +186,4 @@ you may face some issues like
   
             $ rm tmp/pids/server.pid
 
-if you face any other errors , please contact me "rana39993@live.com"
+if you face any other errors , please contact me  rana39993@live.com 
