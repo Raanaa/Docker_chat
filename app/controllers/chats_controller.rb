@@ -29,18 +29,15 @@ class ChatsController < ApplicationController
   def create
 		begin
 			ActiveRecord::Base.transaction do
-				@chat = Chat.create!(application_id: Application.where(token: params[:token]).first.id)
+        @chat = Chat.create!(application_id: Application.where(token: params[:token]).first.id)
       end
     rescue => e #ActiveRecord::RecordNotUnique
       p e.message
       p e.backtrace
 			ActiveRecord::Rollback
-			render plain: e.message
+      render json: "Chat can not be created , please check application's token  ______(( #{e.message} ))" and return
     end
     render json: "Chat created with number =  #{@chat.number}", status: :created
   end
 
-
-
-  
 end

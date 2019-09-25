@@ -30,7 +30,7 @@ class MessagesController < ApplicationController
       p e.message
       p e.backtrace
 			ActiveRecord::Rollback
-			render plain: e.message
+			render json: "Message can not be created , please check application's token and chat's number ______(( #{e.message} ))" and return
     end
     render json: "Message created with number =  #{@message.number}", status: :created
   end
@@ -38,16 +38,18 @@ class MessagesController < ApplicationController
 
   def search
     query = params[:q].present?
-    chat = Chat.where(number: params[:chat_num] , application_id: Application.where(token: params[:token]).first.id).first
-    @messages = Message.search_messages(params[:q] , chat.id) if query
+    chat = Chat.where(number: params[:chat_num] , application_id: Application.where(token: params[:token]).first.id).first  if Application.where(token: params[:token]).length > 0
+    @messages = Message.search_messages(params[:q] , chat.id) if query and chat
 
-    found_msg = Hash.new
-    @messages.each do |b|
-      found_msg[b.number] = b.body
+    if @messages.nil?
+      render json: "No message found "
+    else
+      found_msg = Hash.new
+      @messages.each do |b|
+        found_msg[b.number] = b.body
+      end
+      render json: "found #{found_msg.size} message/s ________ #{found_msg} "
     end
-  
-    render json: "found #{found_msg.size} message/s ________ #{found_msg} "
-
   end
 
 end

@@ -11,6 +11,11 @@ services:
     ports:
       - "3307:3306"
 
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
+
   elastic:
     image: docker.elastic.co/elasticsearch/elasticsearch:6.4.0
     environment:
@@ -20,8 +25,6 @@ services:
       transport.host: localhost
       transport.tcp.port: "9300"
       xpack.ml.enabled: "false"
-    # volumes:
-    #   - ./.data/elastic:/usr/share/elasticsearch/data
     ports:
       - "9200:9200"
       - "9300:9300"
@@ -38,11 +41,13 @@ services:
     ports:
       - "3000:3000"
     depends_on:
-      - db
+      - redis
       - elastic
+      - db
     links:
-      - db
+      - redis
       - elastic
+      - db
     environment:
       DB_USER: root
       DB_NAME: chat_system
@@ -50,3 +55,20 @@ services:
       DB_HOST: db
       ELASTIC_HOST: "elastic"
       ELASTIC_PORT: "9200"
+      REDIS_URL: "redis://redis:6379/0"
+      REDIS_HOST: redis
+      REDIS:PORT: "6379"
+
+  sidekiq:
+    build: .
+    depends_on:
+      - redis
+      - db
+    links:
+      - redis
+      - db
+    command: bundle exec sidekiq
+    environment:
+      REDIS_HOST: redis
+      REDIS:PORT: "6379"
+      REDIS_URL: "redis://redis:6379/0"

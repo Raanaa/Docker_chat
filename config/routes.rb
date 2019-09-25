@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
  
+  require 'sidekiq/web'
+  mount Sidekiq::Web => "/sidekiq"
+
   post 'applications/create',  to: 'applications#create'
   get 'applications/show',  to: 'applications#show'
   get 'applications/:token/chats',  to: 'applications#get_chats'
@@ -31,6 +34,7 @@ Rails.application.routes.draw do
   #     end
   #   end
   # end
+
 
 
 end
