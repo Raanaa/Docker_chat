@@ -1,5 +1,5 @@
 # Chat system
-dockerized __rails application__ with __MYSQL__ database  __Elasticsearch__  and __sidekiq__ 
+dockerized __rails application__ with __MYSQL__ database , __Elasticsearch__  and __sidekiq__ 
  ### containers:
    * docker_chat_app_1
   * docker_chat_db_1
@@ -95,7 +95,9 @@ it takes application's token and return all chats belong to that application
  
                   [[1,1]]
  this application has 1 chat  with 1 message
+
  chat's number = 1 
+
  chat's messages count = 1
 
 #### 6. get chat's messages
@@ -108,7 +110,9 @@ it takes application's token as a parameter and return all chats belong to that 
  
                  [4,"Hi from chat system"]
  this chat has 1 message 
+
 message's number = 1 
+
  message's body = "Hi from chat system"
 
 
@@ -122,8 +126,11 @@ no parameters needed
  
                  [["my_app_name","AnY5Zy6oAKN8PLSa4AUYhtDi",1]]
 here we have only one application 
+
 it's name = "my_app_name" 
+
 it's token = "AnY5Zy6oAKN8PLSa4AUYhtDi" 
+
 it's chats count = 1 
 
 ### 8. get all messages
@@ -136,6 +143,7 @@ no parameters needed
  
                  ["Hi from chat system"]
 here we have only one message 
+
 it's body = "Hi from chat system" 
 
 
@@ -169,9 +177,13 @@ it takes application token , chat number and the new updated message body  as pa
   _______________________________________________________________________________________________
 ### Notes :  
 you may face some issues like 
-  __docker_chat_app_1 exited with code 1__
+
+  __docker_chat_app_1 exited with code 1__  
+
   with error message : __A server is already running. Check /chat_system/tmp/pids/server.pid__
+
   just try to run this command
   
             $ rm tmp/pids/server.pid
+
 if you face any other errors , please contact me "rana39993@live.com"
