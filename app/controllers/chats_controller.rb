@@ -2,7 +2,8 @@ class ChatsController < ApplicationController
 
   def index
     chats = Chat.all
-    render json: chats.pluck(:number, :messages_count)
+    render json: chats
+    #render json:  {chats.collect { | chat | Application.find(chat.application_id).token } , chats.collect { | chat | chat.number } }
   end
 
   def show

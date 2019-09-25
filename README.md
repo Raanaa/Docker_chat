@@ -25,10 +25,10 @@ Numbering of chats in each application starts from 1 and no 2 chats in the same 
 
 ### installation:
  * install docker on your machine
- * clone this repository
- * docker-compose build
-* docker-compose run --rm app rake db:migrate
- * docker-compose up 
+ * clone this repository   
+ *     docker-compose build
+ *     docker-compose run --rm app rake db:migrate
+ *     docker-compose up 
  
 ### endpoints:
 you can you __postman__ or __curl__ to send requests 
@@ -122,7 +122,45 @@ no params needed
  
                  [["my_app_name","AnY5Zy6oAKN8PLSa4AUYhtDi",1]]
 here we have only one application 
-it's name = "" 
+it's name = "my_app_name" 
 it's token = "AnY5Zy6oAKN8PLSa4AUYhtDi" 
 it's chats count = 1 
+
+### 8. get all messages
+no params needed
+
+			curl -X GET \
+    http://localhost:3000/messages \
+  		 
+ you will get a response like that 
+ 
+                 ["Hi from chat system"]
+here we have only one message 
+it's body = "Hi from chat system" 
+
+
+
+### 9. update application
+it takes application token and the new updated name as params
+
+			curl -X PUT \
+    'http://localhost:3000/applications/update?application_token=AnY5Zy6oAKN8PLSa4AUYhtDi&name=new_name' \
+    
+  		 
+ you will get a response like that 
+ 
+                application name updated to be [ new_name ]
+
+
+
+### 10. update message
+it takes application token , chat number and the new updated message body  as params
+
+			curl -X PUT \
+    'http://localhost:3000/messages/update?msg_num=1&chat_num=1&token=AnY5Zy6oAKN8PLSa4AUYhtDi&body=hi%20,%20updated%20message' \
+    
+  		 
+ you will get a response like that 
+ 
+                message body updated to be [ hi , updated message ]
 

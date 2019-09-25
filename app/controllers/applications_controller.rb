@@ -14,7 +14,7 @@ class ApplicationsController < ApplicationController
     @app = Application.where(token: params[:application_token]).first
     @app.name = params[:name]
     @app.save
-    render json: @app
+    render json: "application name updated to be [ #{@app.name} ]"
   end
 
   def get_chats

@@ -16,7 +16,7 @@ class MessagesController < ApplicationController
     @message = Message.where(number: params[:msg_num] , chat_id: chat.id).first
     @message.body = params[:body]
     @message.save
-    render json: @message
+    render json: "message body updated to be [ #{@message.body} ]"
   end
 
  
