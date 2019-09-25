@@ -26,18 +26,18 @@ Numbering of chats in each application starts from 1 and no 2 chats in the same 
 ### installation:
  * install docker on your machine
  * clone this repository   
- *     docker-compose build
- *     docker-compose run --rm app rake db:migrate
- *     docker-compose up 
+ *     $ docker-compose build
+ *     $ docker-compose run --rm app rake db:migrate
+ *     $ docker-compose up 
  
 ### endpoints:
 you can you __postman__ or __curl__ to send requests 
 
 #### 1. create application 
-it takes application name as a params
-example 
+it takes application name as a parameter
+ 
 
-			  curl -X POST \
+			 $ curl -X POST \
 			  'http://localhost:3000/applications/create?name=my_app_name' \
 			 
  you will get a response like that 
@@ -46,22 +46,22 @@ example
   keep this token to be used later 
 
 #### 2. create chat 
-it takes application's token (generated at the previous endpoint ) as a params
-example 
+it takes application's token (generated at the previous endpoint ) as a parameter
+ 
 
 			  curl -X POST \
               'http://localhost:3000/chats/create?token=AnY5Zy6oAKN8PLSa4AUYhtDi' \
 			 
  you will get a response like that 
  
-                  Chat created with number =  1
+                 $ Chat created with number =  1
   keep this number to be used later 
 
 
 #### 3. create message 
-it takes application's token, chat's number (generated at the previous endpoint ) and message body as a params
+it takes application's token, chat's number (generated at the previous endpoint ) and message body as a parameters
 
-			  curl -X POST \
+			 $ curl -X POST \
     'http://localhost:3000/messages/create?body=Hi%20from%20chat%20system&token=AnY5Zy6oAKN8PLSa4AUYhtDi&chat_num=1' \
 			 
  you will get a response like that 
@@ -75,7 +75,7 @@ it takes application's token, chat's number (generated at the previous endpoint 
 It's able to partially match messages’ bodies , using  __ElasticSearch__
 
 
-			curl -X GET \
+			$ curl -X GET \
     'http://localhost:3000/messages/search?q=hi&chat_num=1&token=AnY5Zy6oAKN8PLSa4AUYhtDi' \
   		 
  you will get a response like that 
@@ -86,9 +86,9 @@ It's able to partially match messages’ bodies , using  __ElasticSearch__
 
 
 #### 5. get application's chats
-it takes application's token and return all chats belong to that application I
+it takes application's token and return all chats belong to that application 
 
-			curl -X GET \
+			$ curl -X GET \
     http://localhost:3000/applications/AnY5Zy6oAKN8PLSa4AUYhtDi/chats \
   		 
  you will get a response like that 
@@ -99,9 +99,9 @@ it takes application's token and return all chats belong to that application I
  chat's messages count = 1
 
 #### 6. get chat's messages
-it takes application's token and return all chats belong to that application I
+it takes application's token as a parameter and return all chats belong to that application
 
-			 curl -X GET \
+			 $ curl -X GET \
     'http://localhost:3000/chats/messages?chat_num=1&token=AnY5Zy6oAKN8PLSa4AUYhtDi' \
   		 
  you will get a response like that 
@@ -113,9 +113,9 @@ message's number = 1
 
 
 ### 7. get all applications
-no params needed
+no parameters needed
 
-			curl -X GET \
+			$ curl -X GET \
     http://localhost:3000/applications \
   		 
  you will get a response like that 
@@ -127,9 +127,9 @@ it's token = "AnY5Zy6oAKN8PLSa4AUYhtDi"
 it's chats count = 1 
 
 ### 8. get all messages
-no params needed
+no parameters needed
 
-			curl -X GET \
+			$ curl -X GET \
     http://localhost:3000/messages \
   		 
  you will get a response like that 
@@ -141,9 +141,9 @@ it's body = "Hi from chat system"
 
 
 ### 9. update application
-it takes application token and the new updated name as params
+it takes application token and the new updated name as parameters
 
-			curl -X PUT \
+			$ curl -X PUT \
     'http://localhost:3000/applications/update?application_token=AnY5Zy6oAKN8PLSa4AUYhtDi&name=new_name' \
     
   		 
@@ -154,9 +154,9 @@ it takes application token and the new updated name as params
 
 
 ### 10. update message
-it takes application token , chat number and the new updated message body  as params
+it takes application token , chat number and the new updated message body  as parameters
 
-			curl -X PUT \
+			$ curl -X PUT \
     'http://localhost:3000/messages/update?msg_num=1&chat_num=1&token=AnY5Zy6oAKN8PLSa4AUYhtDi&body=hi%20,%20updated%20message' \
     
   		 
@@ -164,3 +164,14 @@ it takes application token , chat number and the new updated message body  as pa
  
                 message body updated to be [ hi , updated message ]
 
+  
+  
+  _______________________________________________________________________________________________
+### Notes :  
+you may face some issues like 
+  __docker_chat_app_1 exited with code 1__
+  with error message : __A server is already running. Check /chat_system/tmp/pids/server.pid__
+  just try to run this command
+  
+            $ rm tmp/pids/server.pid
+if you face any other errors , please contact me "rana39993@live.com"
