@@ -53,4 +53,4 @@ gem 'elasticsearch-rails'
 
 gem 'sidekiq'
 #gem 'sinatra' #, github: 'sinatra/sinatra'
-gem "sinatra", "~> 2.0"
+gem "sinatra", "~> 2.2"
